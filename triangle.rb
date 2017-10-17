@@ -15,6 +15,30 @@
 #
 def triangle(a, b, c)
   # WRITE THIS CODE
+  if is_illegal_triangle?(a, b, c)
+    raise TriangleError
+  end
+  if ((a == b) and (b == c))
+    :equilateral
+  elsif ((a == b) or (b == c) or (a == c))
+    :isosceles
+  else
+    :scalene
+  end
+end
+
+def is_illegal_triangle?(a, b, c)
+  if (a * b * c) <= 0
+    return true
+  end
+  sides = [a, b, c].sort
+  if sides[2] >= sides[0] + sides[1]
+    return true
+  end
+  if sides[2] <= sides[0] - sides[1]
+    return true
+  end
+  false
 end
 
 # Error class used in part 2.  No need to change this code.

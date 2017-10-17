@@ -31,6 +31,44 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  return 0 if dice.length == 0
+  return 100 if (dice.length == 1 and dice[0] == 1)
+  return 50 if (dice.length == 1 and dice[0] == 5)
+
+  score_map = {1 => 100, 5 => 50, 2 => 0, 3 => 0, 4 => 0, 6 => 0}
+
+  score = 0
+  # handle_triplets
+  # remove triplets from the array
+  (1..6).each do |die_face|
+    if dice.count(die_face) >= 3
+      if die_face == 1
+        score += 1000
+      else
+        score += (die_face * 100)
+      end
+      counter = 0
+      dice = dice.reject do |die_roll|
+        counter += 1
+        (die_roll == die_face) && counter < 4
+      end
+    end
+  end
+
+  # score the remaining individuals using the score map
+  dice.each do |die_roll|
+    score += score_map[die_roll]
+  end
+
+  score
+
+  # score = 0
+  # roll_counts = dice.inject({}) do |roll_counts, die_roll|
+  #   roll_counts[die_roll] = 0 if roll_counts[die_roll] == nil
+  #   roll_counts[die_roll] += 1
+  #   roll_counts
+  # end
+  # roll_counts
 end
 
 class AboutScoringProject < Neo::Koan
